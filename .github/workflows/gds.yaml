@@ -13,16 +13,8 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Generate ROM
-        run: python ./tools/make_rom.py
-
-      - name: Dump ROM contents
-        run: |
-          cat src/rom.vmem
-          python ./tools/dump_rom.py
-
       - name: Build GDS
-        uses: TinyTapeout/tt-gds-action@tt04
+        uses: TinyTapeout/tt-gds-action@tt05
 
   viewer:
     needs: gds
@@ -31,4 +23,4 @@ jobs:
       pages: write # to deploy to Pages
       id-token: write # to verify the deployment originates from an appropriate source
     steps:
-      - uses: TinyTapeout/tt-gds-action/viewer@tt04
+      - uses: TinyTapeout/tt-gds-action/viewer@tt05
