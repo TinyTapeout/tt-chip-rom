@@ -8,17 +8,21 @@ Go to https://tinytapeout.com for instructions.
 
 # What is this repo?
 
-ROM memory that contains information about the Tiny Tapeout chip. The ROM is 8-bit wide and 128 bytes long.
+ROM memory that contains information about the Tiny Tapeout chip. The ROM is 8-bit wide and 256 bytes long.
 
 ## The ROM layout
 
 The ROM layout is as follows:
 
 | Address | Length | Encoding  | Description                              |
-| ------- | ------ | --------- | ---------------------------------------- |
+|---------|--------|-----------|------------------------------------------|
 | 0       | 8      | 7-segment | Shuttle name (e.g. "tt05"), null-padded  |
 | 8       | 8      | 7-segment | Git commit hash                          |
 | 32      | 96     | ASCII     | Chip descriptor (see below)              |
+| 248     | 4      | binary    | Magic value: "TT\xFA\xBB"                |
+| 252     | 4      | binary    | CRC32 of the ROM contents, little-endian |
+
+Other addresses are reserved and should be zero.
 
 ## The chip descriptor
 
@@ -26,7 +30,7 @@ The chip descriptor is a simple null-terminated string that describes the chip.
 Each line is a key-value pair, separated by an equals sign. It contains the following keys:
 
 | Key     | Description                   | Example value              |
-| ------- | ----------------------------- | -------------------------- |
+|---------|-------------------------------|----------------------------|
 | shuttle | The identifier of the shuttle | tt05                       |
 | repo    | The name of the repository    | TinyTapeout/tinytapeout-05 |
 | commit  | The commit hash \*            | a1b2c3d4                   |
